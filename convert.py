@@ -63,6 +63,24 @@ def convert_clash_to_glider_config(clash_config_content):
         if glider_line:
             glider_config.append(glider_line)
 
+        if proxy['type'] == 'ss':
+            # SS proxy as forwarder
+            # forward=ss://method:pass@1.1.1.1:8443
+
+            method = proxy.get('cipher', '')
+            password = proxy.get('password', '')
+            server = proxy.get('server', '')
+            port = proxy.get('port', '')
+
+            glider_line = f"forward=ss://{method}:{password}@{server}:{port}"
+
+            if glider_line.endswith('&'):
+                glider_line = glider_line[:-1]
+
+        if glider_line:
+            glider_config.append(glider_line)
+
+
 
     return glider_config
 
